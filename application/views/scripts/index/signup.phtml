@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8' />
+        <title>STI</title>
+        <?php
+        // echo $this->headLink()->prependStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl() . '/css/style.css');
+        ?>
+
+        <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js'></script>
+
+        <?php
+        //echo $this->headScript()->appendFile(Zend_Controller_Front::getInstance()->getBaseUrl() . '/js/example.js');
+        ?>
+        <style type="text/css" >
+            .err{
+                color:#FF0000;
+            }
+            body
+            {
+                background-color:#FFFFCC;
+            }
+
+            #form{
+                border-top-width: 1px;
+                margin-left: 252px;
+                margin-top: 68px;
+                padding-left: 9px;
+                padding-top: 8px;
+                background-color:#CC9933;
+                padding-right: 117px;
+                width: 400px;
+            }
+        </style>
+        <!--[if IE ]>
+                <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+                $('#first_name_err').text("");
+                $('#last_name_err').text("");
+                $('#email_err').text("");
+                 $('#username_err').text("");
+                $('#confirm_email_err').text("");
+                $('#password_err').text("");
+                $('#conf_password_err').text("");
+                $('#address1_err').text("");
+                $('#address2_err').text("");
+                $('#city_err').text("");
+                $('#province_err').text("");
+                $('#postal_code_err').text("");
+                $('#telephone_err').text("");
+                $('#term_cond_err').text("");
+                
+                               
+               
+
+                $('#signup_form').submit(function() {
+                    var counter=false;
+                    if($('#first_name').val()=='')
+                        $('#first_name_err').text("Please enter valid first name!");
+                    else
+                        $('#first_name_err').text("");
+
+                    if($('#last_name').val()=='')
+                        $('#last_name_err').text("Please enter valid last name!");
+                    else
+                        $('#last_name_err').text("");
+
+                    if($('#username').val()=='')
+                        $('#username_err').text("Please enter valid username!");
+                    else
+                        $('#username_err').text("");
+
+                    if($('#email').val()=='')
+                        $('#email_err').text("Please enter valid email!");
+                    else
+                        $('#email_err').text("");
+
+                    if(($('#confirm_email').val()=='')&&($('#email').val()!=$('#confirm_email').val())&&($('#username').val()))
+                        $('#confirm_email_err').text("Email address doesn't match!");
+                    else
+                        $('#confirm_email_err').text("");
+                    
+                    if($('#password').val()=='')
+                        $('#password_err').text("Please enter valid password!");
+                    else
+                        $('#password_err').text("");
+                    
+                    if($('#conf_password').val()=='')
+                        $('#conf_password_err').text("Password doesn't match.!");
+                    else
+                        $('#conf_password_err').text("");
+                    
+                    if($('#address1').val()=='')
+                        $('#address1_err').text("Please enter valid address!");
+                    else
+                        $('#address1_err').text("");
+                    
+                    if($('#address2').val()=='')
+                        $('#address2_err').text("Please enter valid address!");
+                    else
+                        $('#address2_err').text("");
+                    
+                    if($('#city').val()=='')
+                        $('#city_err').text("Please enter valid city!");
+                    else
+                        $('#city_err').text("");
+                    
+                    if($('#province').val()=='')
+                        $('#province_err').text("Please enter valid category!");
+                    else
+                        $('#province_err').text("");
+                    
+                    if($('#postal_code').val()=='')
+                        $('#postal_code_err').text("Please enter valid postal code!");
+                    else
+                        $('#postal_code_err').text("");
+                    
+                    if($('#telephone').val()=='')
+                        $('#telephone_err').text("Please enter valid telephone number!");
+                    else
+                        $('#telephone_err').text("");
+                    
+                    if(!$("input").is(':checked'))
+                        $('#term_cond_err').text("Please accept the terms and conditions!");
+                    else
+                        $('#term_cond_err').text("");
+                    
+
+                    if(($('#first_name').val()!='0')&&($('#last_name').val()!='')&&($('#email').val()!='')&&($('#confirm_email').val()!='')&&($('#password').val()!='')&&($('#conf_password').val()!='')&&($('#address1').val()!='')&&($('#address2').val()!='')&&($('#city').val()!='')&&($('#province').val()!='')&&($('#postal_code').val()!='')&&($('#telephone').val()!='')&&($("input").is(':checked'))){
+                        return true;
+                    }
+                    return false;
+
+                });
+
+
+
+                $('#back').click(function() {
+                    window.location.href='<?php echo $this->url(array('controller' => 'article', 'action' => 'viewcategory'), null, true); ?>';
+                });
+                $('#category').click(function() {
+                    var htamlString='';
+                    if($('#section').val()!=''){
+                        
+                        $.ajax({
+                            url: '<?php echo $this->url(array('controller' => 'article', 'action' => 'getcategory'), null, true); ?>?id='+$('#section').val(),
+                            type: "GET",
+                            dataType:"json",
+                            success: function(data) {
+                                //alert(data);
+                                //$("#category").append("<option >select category</option>");
+                                htamlString='';
+                                for(var i=0;i<data.length;i++){
+                                    htamlString+="<option value="+data[i].id+">"+data[i].name+"</option>";
+                                }
+                                $("#category").append(htamlString);
+                            } 
+                        });
+                       
+                    }    });
+
+
+                $('#province').click(function() {
+                    var htmlString='';                   
+
+                    $.ajax({
+                        url: '<?php echo $this->url(array('controller' => 'index', 'action' => 'getprovince'), null, true); ?>',
+                        type: "GET",
+                        dataType:"json",
+                        success: function(data) {
+                            //alert(data);
+                            //$("#category").append("<option >select category</option>");
+                            htmlString='';
+                            for(var i=0;i<data.length;i++){
+                                htmlString+="<option value="+data[i].id+">"+data[i].city+"</option>";
+                            }
+                            $("#province").append(htmlString);
+                        }
+                    });
+
+                });
+
+                    
+               
+            });
+
+        </script>
+    </head>
+    <body>
+        <div id="form">
+            <h3 style="margin-left: 121px;">Registration Form</h3>
+            <form id="signup_form" action="<?php echo $this->url(array('controller' => 'index', 'action' => 'signup'), null, true); ?>" method="post" >
+                <table>
+                    <tr>
+                        <td><span class="err">*</span>First Name: </td>
+                        <td><input type="text" id="first_name" name="first_name" /><br/><span class="err" id="first_name_err"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="err">*</span>Last Name: </td>
+                        <td><input type="text" id="last_name" name="last_name" /><br/><span class="err" id="last_name_err"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="err">*</span>Username: </td>
+                        <td><input type="text" id="username" name="username" /><br/><span class="err" id="username_err"></span></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><span class="err">*</span>Email: </td>
+                        <td><input type="text" id="email" name="email" /><br/><span class="err" id="email_err"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="err">*</span>Confirm Email: </td><td><input type="text" id="confirm_email" name="confirm_email" /><br/><span class="err" id="confirm_email_err"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="err">*</span>Password: </td>
+                        <td><input type="password" id="password" name="password" /><br/><span class="err" id="password_err"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="err">*</span>Confirm Password: </td>
+                        <td><input type="password" id="conf_password" name="conf_password" /><br/><span class="err" id="conf_password_err"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="err">*</span>Address1:</td>
+                        <td><textarea id="address1" name="address1" ></textarea><br/><span class="err" id="address1_err"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Address2:</td>
+                        <td><textarea id="address2" name="address2" ></textarea></td>
+                    </tr>
+                    <tr>
+                        <td><span class="err">*</span>City: </td>
+                        <td><input type="text" id="city" name="city" /><br/><span class="err" id="city_err"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="err">*</span>Province: </td>
+                        <td><select selected="selected" name="province" id="province" >
+                                <option>select province</option>
+                                <?php foreach ($this->province as $value): ?>
+                                    <option value="<?php echo $value['id']; ?>"><?php echo $value['city']; ?></option>
+                                <?php endforeach; ?>
+                                </select><br/><span class="err" id="province_err"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="err">*</span>Postal code: </td>
+                            <td><input type="text" id="postal_code" name="postal_code" /><br/><span class="err" id="postal_code_err"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="err">*</span>Telephone: </td>
+                            <td><input type="text" id="telephone" name="telephone" /><br/><span class="err" id="telephone_err"></span></td>
+                        </tr>
+                        <tr>
+                            <td></td><td><span class="err">*</span><input type="checkbox" name="term_cond" id="term_cond" value="" />Please accept the terms and condition<br/><span class="err" id="term_cond_err"></span></td>
+                        </tr>
+                        <tr>
+                            <td><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'login'), NULL, true); ?>">Log-in</a></td>
+                        <td><input type="submit" value="SignUp"></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+
+
+    <footer></footer>
+</body>
+</html>
+

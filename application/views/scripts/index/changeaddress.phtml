@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8' />
+        <title>STI</title>
+        <?php
+        // echo $this->headLink()->prependStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl() . '/css/style.css');
+        ?>
+
+        <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js'></script>
+
+        <?php
+        //echo $this->headScript()->appendFile(Zend_Controller_Front::getInstance()->getBaseUrl() . '/js/example.js');
+        ?>
+        <style type="text/css" >
+            .err{
+                color:#FF0000;
+            }
+            body
+            {
+                background-color:#FFFFCC;
+            }
+
+            .left_panel{
+                border-top-width: 0;
+                margin-left: 38px;
+                margin-top: 59px;
+            }
+
+            .right_panel{
+                border-left-width: 4px;
+                margin-left: 489px;
+                margin-top: -23px;
+                background-color:#CC9933;
+                width:35%;
+            }
+
+            .active{
+                background: url(../images/active.png) no-repeat scroll center 39px transparent;
+                font-weight: 700;
+            }
+            
+        </style>
+        <!--[if IE ]>
+                <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+                $('#address1_err').text("");
+                $('#address2_err').text("");
+                $('#city_err').text("");
+                $('#postal_code_err').text("");
+                $('#telephone_err').text("");postal_code
+
+                $('#address_form').submit(function() {
+                    var counter=false;
+                    if($('#address_1').val()=='')
+                        $('#address1_err').text("Please enter valid address!");
+                    else
+                        $('#address1_err').text("");
+
+                    if($('#address_2').val()=='')
+                        $('#address2_err').text("Please enter valid address!");
+                    else
+                        $('#address2_err').text("");
+
+                    if($('#city').val()=='')
+                        $('#city_err').text("Please re-enter valid city name!");
+                    else
+                        $('#city_err').text("");
+
+                    if($('#postal_code').val()=='')
+                        $('#postal_code_err').text("Please re-enter valid postal code!");
+                    else
+                        $('#postal_code_err').text("");
+
+                    if($('#telephone').val()=='')
+                        $('#telephone_err').text("Please re-enter valid telephone number!");
+                    else
+                        $('#telephone_err').text("");
+
+
+                    if(($('#address_1').val()!='')&&($('#address_2').val()!='')&&($('#city').val()!='')&&($('#telephone').val()!='')&&($('#postal_code').val()!='')){
+                        return true;
+                    }
+                    return false;
+
+                });
+
+            });
+
+        </script>
+    </head>
+    <body>
+        <h3 style="margin-left:90%;"><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'logout'), null, true); ?>">Logout</a></h3>
+        <div id="profile">
+            <div class="left_panel">
+                <table>
+                    <tr><td><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'userprofile'), null, true); ?>">Summary</a></td></tr>
+                    <tr><td><h3>Make Profile changes:</h3> </td></tr>
+                    <tr><td><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'editprofile'), null, true); ?>">Change My Name and Email</a></td></tr>
+                    <tr><td><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'changepassword'), null, true); ?>">Change my password</a></td></tr>
+                    <tr><td><a class="active" href="<?php echo $this->url(array('controller' => 'index', 'action' => 'changeaddress'), null, true); ?>">Change my address</a></td></tr>
+                </table>
+            </div>
+            <div class="right_panel">
+                <form id="address_form" action="<?php echo $this->url(array('controller' => 'index', 'action' => 'changeaddress'), null, true); ?>" method="post" >
+                    <table>
+                        <tr>
+                            <td><span class="err">*</span>Address1: </td>
+                            <td><input type="text" id="address_1" name="address_1" value="<?php echo $this->address['address_1'];?>" /><br/><span class="err" id="address1_err"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="err">*</span>Address2: </td>
+                            <td><input type="text" id="address_2" name="address_2" value="<?php echo $this->address['address_2'];?>" /><br/><span class="err" id="address2_err"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="err">*</span>City: </td>
+                            <td><input type="text" id="city" name="city" value="<?php echo $this->address['city'];?>" /><br/><span class="err" id="city_err"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="err">*</span>Postal Code: </td>
+                            <td><input type="text" id="postal_code" name="postal_code" value="<?php echo $this->address['postal_code'];?>" /><br/><span class="err" id="postal_code_err"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="err">*</span>Phone Number: </td>
+                            <td><input type="text" id="telephone" name="telephone" value="<?php echo $this->address['telephone'];?>" /><br/><span class="err" id="telephone_err"></span></td>
+                        </tr>
+                        <tr>
+                            <td><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'userprofile'), NULL, true); ?>">Cancel</a></td>
+                            <td><input type="submit" value="Save Address"></td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="id" name="id" value="<?php echo $this->address['id'];?>" />
+                    <input type="hidden" id="user_id" name="user_id" value="<?php echo $this->address['user_id'];?>" />
+                </form>
+            </div>
+
+
+        </div>
+
+
+
+    <footer></footer>
+</body>
+</html>
+

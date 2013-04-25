@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8' />
+        <title>Knowledge Base</title>
+        <?php
+        // echo 'http://localhost:8080'.$this->headLink()->prependStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl() . '/css/style.css');
+        ?>
+
+        <?php
+        // echo $this->headLink()->prependStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl() . '/css/style.css');
+        ?>
+        <link type="text/css" rel="stylesheet" media="screen" href="http://localhost:8080/knowledgebased/public/css/add.css"></link>
+        <!--[if IE]>
+                <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js'></script>
+        <script src='http://localhost:8080/knowledgebased/public/js/bootstrap.js'></script>
+        <?php
+        //echo $this->headScript()->appendFile(Zend_Controller_Front::getInstance()->getBaseUrl() . '/js/example.js');
+        ?>
+
+        <?php
+        // echo $this->headLink()->prependStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl() . '/css/add.css');
+        ?>
+
+        <?php
+        // echo $this->headLink()->prependStylesheet(Zend_Controller_Front::getInstance()->getBaseUrl() . '/css/add.css');
+        ?>
+        <style type="text/css" >
+            .err{
+                color:#FF0000;
+            }
+        </style>
+        <!--[if IE ]>
+                <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js'></script>
+        <?php
+        //echo $this->headScript()->appendFile(Zend_Controller_Front::getInstance()->getBaseUrl() . '/js/bootstrap.js');
+        ?>
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+                $('#first_name_err').text("");
+                $('#last_name_err').text("");
+                $('#email_err').text("");
+                $('#confirm_email_err').text("");
+                $('#conf_password_err').text("");
+                $('#address1_err').text("");
+                $('#address2_err').text("");
+                $('#city_err').text("");
+                $('#province_err').text("");
+                $('#postal_code_err').text("");
+                $('#telephone_err').text("");
+                $('#term_cond_err').text("");
+                
+                               
+               
+
+                $('#category_form').submit(function() {
+                    var counter=false;
+                    if($('#first_name').val()=='0')
+                        $('#first_name_err').text("Please enter valid first name!");
+                    else
+                        $('#first_name_err').text("");
+
+                    if($('#last_name').val()=='')
+                        $('#last_name_err').text("Please enter valid last name!");
+                    else
+                        $('#last_name_err').text("");
+		    
+                    if($('#email').val()=='')
+                        $('#email_err').text("Please enter valid email!");
+                    else
+                        $('#email_err').text("");
+
+                    if(($('#confirm_email').val()=='')&&($('#email').val()!=$('#confirm_email').val()))
+                        $('#confirm_email_err').text("Please re-enter email address!");
+                    else
+                        $('#confirm_email_err').text("");
+                    
+                    if($('#password').val()=='')
+                        $('#password_err').text("Please enter valid password!");
+                    else
+                        $('#password_err').text("");
+                    
+                    if($('#conf_password').val()=='')
+                        $('#conf_password_err').text("Please enter valid category!");
+                    else
+                        $('#conf_password_err').text("");
+                    
+                    if($('#address1').val()=='')
+                        $('#address1_err').text("Please enter valid category!");
+                    else
+                        $('#address1_err').text("");
+                    
+                    if($('#address2').val()=='')
+                        $('#address2_err').text("Please enter valid category!");
+                    else
+                        $('#address2_err').text("");
+                    
+                    if($('#city').val()=='')
+                        $('#city_err').text("Please enter valid category!");
+                    else
+                        $('#city_err').text("");
+                    
+                    if($('#province').val()=='')
+                        $('#province_err').text("Please enter valid category!");
+                    else
+                        $('#province_err').text("");
+                    
+                    if($('#postal_code').val()=='')
+                        $('#postal_code_err').text("Please enter valid category!");
+                    else
+                        $('#postal_code_err').text("");
+                    
+                    if($('#telephone').val()=='')
+                        $('#telephone_err').text("Please enter valid category!");
+                    else
+                        $('#telephone_err').text("");
+                    
+                    if($('#term_cond').val()=='')
+                        $('#term_cond_err').text("Please enter valid category!");
+                    else
+                        $('#term_cond_err').text("");
+                    
+
+                    if(($('#section_cat').val()!='0')&&($('#catrgory_name').val()!='')&&($('#catrgory_name_danish').val()!='')){
+                        return true;
+                    }
+                    return false;
+
+                });
+
+
+
+                $('#back').click(function() {
+                    window.location.href='<?php echo $this->url(array('controller' => 'article', 'action' => 'viewcategory'), null, true); ?>';
+                });
+                $('#category').click(function() {
+                    var htamlString='';
+                    if($('#section').val()!=''){
+                        
+                        $.ajax({
+                            url: '<?php echo $this->url(array('controller' => 'article', 'action' => 'getcategory'), null, true); ?>?id='+$('#section').val(),
+                            type: "GET",
+                            dataType:"json",
+                            success: function(data) {
+                                //alert(data);
+                                //$("#category").append("<option >select category</option>");
+                                htamlString='';
+                                for(var i=0;i<data.length;i++){
+                                    htamlString+="<option value="+data[i].id+">"+data[i].name+"</option>";
+                                }
+                                $("#category").append(htamlString);
+                            } 
+                        });
+                       
+                    }    });
+               
+            });
+
+        </script>
+    </head>
+    <body>
+        <header>
+            <section class="top-header group">
+                <div class="logo">
+                    <a href="<?php echo $this->url(array('controller' => 'article', 'action' => 'viewarticle'), NULL, TRUE); ?>">Knowledge Base </a>
+                </div>
+                <button class="logout" id="logout">LOG OUT</button>
+                <button class="new" id="new">New Article</button>
+                <button class="new" id="new_cat">New Category</button>
+            </section> <!-- END logo -->
+
+            <section class="tab-menu group">
+                <nav>
+                    <ul>
+                        <li data-name="add-article"><a href="<?php echo $this->url(array('controller' => 'article', 'action' => 'viewarticle'), NULL, true); ?>" >Articles</a> </li>
+                        <li class="active" data-name="add-categories"><a href="<?php echo $this->url(array('controller' => 'article', 'action' => 'viewcategory'), NULL, true); ?>" >Categories</a> </li>
+                    </ul>
+                </nav>
+            </section> <!-- END tab-menu -->
+
+            <span class="tab-border group"></span>
+        </header>	<!-- END header -->
+
+        <form id="signup_form" action="<?php echo $this->url(array('controller' => 'index', 'action' => 'signup'), null, true); ?>" method="post" >
+            <table>
+                <tr>
+                    <td>First Name: </td>
+                    <td><input type="text" id="first_name" name="first_name" /></td>
+                </tr>
+                <tr>
+                    <td>Last Name: </td>
+                    <td><input type="text" id="last_name" name="last_name" /></td>
+                </tr>
+                <tr>
+                    <td>Email: </td>
+                    <td><input type="text" id="email" name="email" /></td>
+                </tr>
+                <tr>
+                    <td>Confirm Email: </td><td><input type="text" id="confirm_email" name="confirm_email" /></td>
+                </tr>
+                <tr>
+                    <td>Password: </td>
+                    <td><input type="text" id="password" name="password" /></td>
+                </tr>
+                <tr>
+                    <td>Confirm Password: </td>
+                    <td><input type="text" id="conf_password" name="password" /></td>
+                </tr>
+                <tr>
+                    <td>Address1:</td>
+                    <td><textarea id="address1" name="address1" ></textarea></td>
+                </tr>
+                <tr>
+                    <td>Address2:</td>
+                    <td><textarea id="address2" name="address2" ></textarea></td>
+                </tr>
+                <tr>
+                    <td>City: </td>
+                    <td><input type="text" id="city" name="city" /></td>
+                </tr>
+                <tr>
+                    <td>Province: </td>
+                    <td><select selected="selected" name="province" id="province" >
+                            <option>select province</option>
+                            <option>province1</option>
+                        </select></td>
+                </tr>
+                <tr>
+                    <td>Postal code: </td>
+                    <td><input type="text" id="postal_code" name="postal_code" /></td>
+                </tr>
+                <tr>
+                    <td>Telephone: </td>
+                    <td><input type="text" id="telephone" name="telephone" /></td>
+                </tr>
+                <tr>
+                    <td></td><td><input type="checkbox" name="term_cond" id="term_cond" value="Please accept the terms and condition" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="SignUp"></td>
+                </tr>
+            </table>
+        </form>
+
+
+
+
+        <footer></footer>
+    </body>
+</html>
+
